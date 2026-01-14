@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { updateUser } from "../../../redux/action"
+import { updateUser } from "../../../redux/action/hhhhhhh"
 import { i } from "framer-motion/client";
 
 export const DeleteUserModal = ({ user, setDeleteModalOpen }) => {

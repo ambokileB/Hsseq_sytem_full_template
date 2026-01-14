@@ -9,7 +9,7 @@ import { Audits } from "./Audits/Audits";
 import { Complience } from "./Complience/Complience";
 import { Dashboard } from "./dashboard/Dashboard";
 import { Jmp } from "./JMP/Jmp";
-import { Register, Login, ForgotPassword, ResetPassword } from "./auth";
+import {  ForgotPassword, ResetPassword, Auth } from "./auth";
 
 export {
     DefaultDashboard,
@@ -23,8 +23,7 @@ export {
     Complience,
     Dashboard,
     Jmp,
-    Register,
-    Login,
+    Auth,
     ForgotPassword,
     ResetPassword
 

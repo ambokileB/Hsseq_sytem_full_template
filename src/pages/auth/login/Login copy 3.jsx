@@ -1,77 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { login, clearAuthErrors } from '../../../redux/action/authActions';
 import {
   Shield,
   Eye,
   EyeOff,
   Mail,
   Lock,
-  User,
-  Building,
-  Phone,
+  Briefcase,
   CheckCircle,
   XCircle,
-  AlertCircle,
-  ArrowRight,
-  ChevronRight,
-  Key,
-  Smartphone,
-  Globe,
-  Briefcase,
-  FileText
+  AlertCircle
 } from 'lucide-react';
 
-export const Login = () => {
+const Login = ({ login, error, loading, clearAuthErrors, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     rememberMe: false
   });
   const [showPassword, setShowPassword] = useState(false);
-  const [errors, setErrors] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
-  const [loginSuccess, setLoginSuccess] = useState(false);
+  const [formErrors, setFormErrors] = useState({});
+  
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/dashboard';
+
+  // Use useEffect for navigation
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(from, { replace: true });
+    }
+  }, [isAuthenticated, navigate, from]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    
+    setFormErrors({});
+    clearAuthErrors();
+
     // Validation
     const newErrors = {};
     if (!formData.email) newErrors.email = 'Email is required';
     if (!formData.password) newErrors.password = 'Password is required';
     
     if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      setIsLoading(false);
+      setFormErrors(newErrors);
       return;
     }
-    
-    // Simulate API call
+
     try {
-      // Replace with actual API call
-      // const response = await fetch('/api/auth/login', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(formData)
-      // });
-      
-      // const data = await response.json();
-      
-      await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate API delay
-      
-      setLoginSuccess(true);
-      // In real app: router.push('/dashboard')
-      
-      // Show success and redirect
-      setTimeout(() => {
-        alert('Login successful! Redirecting to dashboard...');
-        // router.push('/dashboard');
-      }, 500);
-      
+      await login(formData.email, formData.password);
+      // Navigation will happen in the useEffect above
     } catch (error) {
-      setErrors({ general: 'Invalid credentials. Please try again.' });
-    } finally {
-      setIsLoading(false);
+      console.log('Login failed');
     }
   };
 
@@ -88,14 +70,16 @@ export const Login = () => {
           value={value}
           onChange={onChange}
           placeholder={placeholder}
-          className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all ${
+          disabled={loading}
+          className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring focus:ring-emerald-500 outline-none transition-all ${
             error ? 'border-red-300 bg-red-50' : 'border-gray-200 hover:border-gray-300'
-          }`}
+          } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
         />
         {name === 'password' && (
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
+            disabled={loading}
             className="absolute inset-y-0 right-0 pr-3 flex items-center"
           >
             {showPassword ? (
@@ -115,22 +99,14 @@ export const Login = () => {
     </div>
   );
 
+  // Don't show anything if authenticated (will redirect)
+  if (isAuthenticated) {
+    return null;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-emerald-50/30 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        {/* Logo & Header */}
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center p-3 bg-gradient-to-br from-emerald-500 to-yellow-500 rounded-2xl shadow-lg mb-4">
-            <Shield size={32} className="text-white" />
-          </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            HSSEQ Portal
-          </h1>
-          <p className="text-gray-600">
-            Safety Management System
-          </p>
-        </div>
-
         {/* Login Card */}
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
           <div className="p-8">
@@ -143,26 +119,31 @@ export const Login = () => {
               </p>
             </div>
 
-            {loginSuccess && (
-              <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
+            {/* Redux Error */}
+            {error && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
                 <div className="flex items-center gap-3">
-                  <CheckCircle size={20} className="text-emerald-600" />
-                  <div>
-                    <div className="font-medium text-emerald-800">Login successful!</div>
-                    <div className="text-sm text-emerald-700">Redirecting to dashboard...</div>
-                  </div>
+                  <XCircle size={20} className="text-red-600" />
+                  <div className="font-medium text-red-800">{error}</div>
                 </div>
               </div>
             )}
 
-            {errors.general && (
-              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
-                <div className="flex items-center gap-3">
-                  <XCircle size={20} className="text-red-600" />
-                  <div className="font-medium text-red-800">{errors.general}</div>
+            {/* Demo Credentials */}
+            <div className="mb-6 p-4 bg-gray-50 border border-gray-200 rounded-xl text-sm">
+              <div className="font-bold mb-2 text-gray-800">Demo Credentials:</div>
+              <div className="space-y-1">
+                <div className="text-gray-700">
+                  <span className="font-medium">Admin:</span> admin@example.com / admin123
+                </div>
+                <div className="text-gray-700">
+                  <span className="font-medium">User:</span> user@example.com / user123
+                </div>
+                <div className="text-gray-700">
+                  <span className="font-medium">Manager:</span> manager@example.com / manager123
                 </div>
               </div>
-            )}
+            </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <InputField
@@ -172,7 +153,7 @@ export const Login = () => {
                 name="email"
                 value={formData.email}
                 onChange={(e) => setFormData({...formData, email: e.target.value})}
-                error={errors.email}
+                error={formErrors.email}
                 placeholder="you@company.com"
               />
 
@@ -183,7 +164,7 @@ export const Login = () => {
                 name="password"
                 value={formData.password}
                 onChange={(e) => setFormData({...formData, password: e.target.value})}
-                error={errors.password}
+                error={formErrors.password}
                 placeholder="••••••••"
               />
 
@@ -193,6 +174,7 @@ export const Login = () => {
                     type="checkbox"
                     checked={formData.rememberMe}
                     onChange={(e) => setFormData({...formData, rememberMe: e.target.checked})}
+                    disabled={loading}
                     className="rounded text-emerald-600 focus:ring-emerald-500"
                   />
                   <span className="text-sm text-gray-700">Remember me</span>
@@ -204,19 +186,16 @@ export const Login = () => {
 
               <button
                 type="submit"
-                disabled={isLoading}
+                disabled={loading}
                 className="w-full py-3 px-4 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-xl font-bold hover:from-emerald-600 hover:to-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
               >
-                {isLoading ? (
+                {loading ? (
                   <>
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
                     Signing in...
                   </>
                 ) : (
-                  <>
-                    Sign In
-                    <ArrowRight size={20} />
-                  </>
+                  'Sign In'
                 )}
               </button>
 
@@ -229,24 +208,7 @@ export const Login = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <button
-                  type="button"
-                  className="flex items-center justify-center gap-2 px-4 py-3 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
-                >
-                  <Globe size={20} className="text-gray-600" />
-                  <span className="text-sm font-medium">SSO</span>
-                </button>
-                <button
-                  type="button"
-                  className="flex items-center justify-center gap-2 px-4 py-3 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
-                >
-                  <Smartphone size={20} className="text-gray-600" />
-                  <span className="text-sm font-medium">Mobile ID</span>
-                </button>
-              </div>
-
-              <div className="text-center pt-6 border-t border-gray-100">
+              <div className="text-center">
                 <p className="text-sm text-gray-600">
                   Don't have an account?{' '}
                   <a href="/register" className="font-bold text-emerald-600 hover:text-emerald-700">
@@ -275,16 +237,22 @@ export const Login = () => {
             </div>
           </div>
         </div>
-
-        {/* Footer */}
-        <div className="text-center mt-8">
-          <p className="text-xs text-gray-500">
-            © 2024 HSSEQ Management System. All rights reserved.
-            <br />
-            Need help? <a href="/support" className="text-emerald-600 hover:text-emerald-700">Contact Support</a>
-          </p>
-        </div>
       </div>
     </div>
   );
 };
+
+const mapStateToProps = (state) => ({
+  error: state.auth.error,
+  loading: state.auth.loading,
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+const mapDispatchToProps = {
+  login,
+  clearAuthErrors,
+};
+
+const ConnectedLogin = connect(mapStateToProps, mapDispatchToProps)(Login);
+export default ConnectedLogin;
+export { ConnectedLogin as Login };

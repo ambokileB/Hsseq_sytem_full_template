@@ -21,7 +21,7 @@ export const Sidebar = forwardRef(({
   const [hoverTimeout, setHoverTimeout] = useState(null);
 
   const modules = [
-    { id: 'dashboard', name: 'Dashboard', icon: FiHome, path: '/', type: 'single' },
+    { id: 'dashboard', name: 'Dashboard', icon: FiHome, path: '/dashboard', type: 'single' },
     {
       id: 'incidents', name: 'Incidents Management', icon: FiAlertTriangle, type: 'dropdown',
       subItems: [
@@ -51,7 +51,7 @@ export const Sidebar = forwardRef(({
       ]
     },
     { id: 'inspections', name: 'Inspections Management', icon: FiCheckSquare, path: '/inspections', type: 'single' },
-    { id: 'risk', name: 'Risk Management', icon: FiActivity, path: '/risk', type: 'single' },
+    { id: 'jmp', name: 'Journey Management', icon: FiActivity, path: '/jmp', type: 'single' },
     { id: 'reports', name: 'Report Management', icon: FiBarChart2, path: '/reports', type: 'single' }
   ];
 

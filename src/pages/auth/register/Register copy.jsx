@@ -192,18 +192,7 @@ export const Register = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-emerald-50/30 flex items-center justify-center p-4">
       <div className="w-full max-w-2xl">
-        {/* Logo & Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center p-3 bg-gradient-to-br from-emerald-500 to-yellow-500 rounded-2xl shadow-lg mb-4">
-            <Shield size={32} className="text-white" />
-          </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Request HSSEQ Access
-          </h1>
-          <p className="text-gray-600">
-            Register for company safety management system
-          </p>
-        </div>
+        
 
         {/* Registration Card */}
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">

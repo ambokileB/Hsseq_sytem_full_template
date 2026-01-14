@@ -576,27 +576,27 @@ export const Incidents = () => {
           <div className="flex gap-2">
             <Dialog>
               <DialogTrigger asChild>
-                <Button className="gap-2 cursor-pointer bg-gradient-to-r from-amber-600 to-yellow-600 hover:from-amber-700 hover:to-yellow-700 text-white font-semibold shadow-lg hover:shadow-xl">
-                  <Plus className="h-4 w-4" />
-                  New Report
+              <Button variant="outline" className="gap-2 cursor-pointer border-amber-200 hover:border-amber-300 hover:text-emerald-600 bg-emerald-500 text-white hover:bg-amber-50">
+                  <Smartphone className="h-4 w-4" />
+                  Mobile
                 </Button>
+
+                
               </DialogTrigger>
               <IncidentReportDialog />
             </Dialog>
             <Dialog>
               <DialogTrigger asChild>
-                <Button variant="outline" className="gap-2 cursor-pointer border-amber-200 hover:border-amber-300 hover:bg-amber-50">
-                  <Smartphone className="h-4 w-4" />
-                  Mobile
+              <Button className="gap-2 cursor-pointer bg-gradient-to-r from-amber-600 to-yellow-600 hover:from-amber-700 hover:to-yellow-700 text-white font-semibold shadow-lg hover:shadow-xl">
+                  <Plus className="h-4 w-4" />
+                  New Incident
                 </Button>
+
               </DialogTrigger>
               <MobileReportingDialog />
             </Dialog>
           </div>
-          <Button className="bg-gray-900 hover:bg-gray-800 text-white">
-            <Plus className="h-4 w-4 mr-2" />
-            New Incident
-          </Button>
+         
         </div>
       </div>
 

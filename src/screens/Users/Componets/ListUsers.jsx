@@ -7,7 +7,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { FaCircleUser  } from "react-icons/fa6";
 import { div, span } from 'framer-motion/client';
 import { User } from 'lucide-react';
-import { deleteUser } from "../../../redux/action";
+import { deleteUser } from "../../../redux/action/hhhhhhh";
 import { UpdateUserModal } from "./UpdateUserModal";
 import { DeleteUserModal } from "./DeleteUser";
 import { useDispatch, useSelector } from 'react-redux';

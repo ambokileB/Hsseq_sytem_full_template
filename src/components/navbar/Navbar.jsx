@@ -32,8 +32,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-// import { useAuth } from "@/contexts/AuthContext";
 
+import {logout} from '../../redux/action/authActions'
 import PropTypes from "prop-types";
 
 Navbar.propTypes = {
@@ -91,14 +91,26 @@ export function Navbar({ toggleSidebar }) {
   const [accountOpen, setAccountOpen] = useState(false);
 
 
+ 
+
   const username = "baraka"; // Replace with actual user data
   const email = "baraka@gmail.com"
-  const handleLogout = () => {
-    logout();
-    setAccountOpen(false);
+  // const handleLogout = () => {
+  //   logout();
+  //   setAccountOpen(false);
+  // };
+
+;
+
+  const handleLogout = async () => {
+    try {
+      await logout(); // This is the logout function from props (connected via Redux)
+      setAccountOpen(false);
+      console.log('Logout now:');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
   };
-
-
   const [activeTab, setActiveTab] = useState('account');
   const markAsRead = (id) => {
     // Logic to mark notification as read
@@ -632,7 +644,8 @@ export function Navbar({ toggleSidebar }) {
         </div>
         <button
           onClick={handleLogout}
-          className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-linear-to-r from-[#FF8C00] to-[#FF6B00] hover:from-[#FF6B00] hover:to-[#FF8C00] rounded-lg transition-all shadow-sm hover:shadow"
+          
+          className="flex items-center cursor-pointer gap-2 px-4 py-2.5 text-sm font-medium text-white bg-linear-to-r from-[#FF8C00] to-[#FF6B00] hover:from-[#FF6B00] hover:to-[#FF8C00] rounded-lg transition-all shadow-sm hover:shadow"
         >
           <LogOut className="w-4 h-4" />
           Sign Out

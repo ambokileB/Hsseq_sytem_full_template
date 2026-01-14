@@ -1,6 +1,6 @@
 
 import React,{useState} from "react";
-import { registerUser } from "../../../redux/action/index"
+import { registerUser } from "../../../redux/action/hhhhhhh"
 import { useDispatch,useSelector } from "react-redux";
 
 

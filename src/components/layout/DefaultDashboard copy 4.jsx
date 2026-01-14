@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Outlet } from "react-router-dom";
-import  {Sidebar}  from "../../components/sidebar/Sidebar";
-import { Navbar } from "../../components/navbar/Navbar";
-import { MainContainer } from "../../components/mainContainer/MainContainer";
+import { MainContainer, Navbar, Sidebar } from "..";
 
 export function DefaultDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -54,9 +51,7 @@ export function DefaultDashboard() {
           activeModule={activeModule}
           sidebarCollapsed={sidebarCollapsed}
         />
-        <MainContainer activeModule={activeModule}>
-          <Outlet />
-        </MainContainer>
+        <MainContainer activeModule={activeModule} />
       </div>
     </div>
   );
