@@ -144,7 +144,7 @@ const handleNextStep = () => {
     <div className="min-h-screen flex bg-white">
       {/* Left Side - Brand/Content Section */}
        <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-emerald-900 to-emerald-800 text-white p-12 flex-col justify-between">
-              <div>
+           
                 <div className="flex items-center gap-3 mb-12">
                   <div className="p-2 bg-white/20 rounded-xl backdrop-blur-sm">
                     <Shield size={28} className="text-emerald-200" />
@@ -155,9 +155,9 @@ const handleNextStep = () => {
                   </div>
                 </div>
       
-                <div className="max-w-lg flex flex-col justify-between h-full">
-                  <div className='w-full flex flex-col items-center justify-center'>
-                      <h2 className="text-4xl font-bold  leading-tight text-emerald-200">
+                <div className="max-w-lg flex flex-col mb-12 ">
+                  <div className='w-full flex flex-col items-center justify-center mb-16'>
+                      <h2 className="text-4xl font-bold  leading-tight text-emerald-200 mb-6">
                       Transforming 
                       </h2>
                       <h2 className='text-emerald-200 text-2xl font-bold  leading-tight'> Your Health, Safety, Security & Environment</h2>
@@ -208,7 +208,7 @@ const handleNextStep = () => {
       
                  
                 </div>
-              </div>
+              
       
               {/* Bottom Branding */}
               <div className="border-t border-emerald-700/50 pt-3">

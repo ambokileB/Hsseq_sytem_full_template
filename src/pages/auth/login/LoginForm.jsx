@@ -86,7 +86,7 @@ export const LoginForm = ({
           <p className="text-sm text-gray-600">
             Don't have an account?{' '}
             <Link to="/register" className="font-bold text-emerald-600 hover:text-emerald-700">
-              Request access
+              Create Account
             </Link>
           </p>
         </div>
